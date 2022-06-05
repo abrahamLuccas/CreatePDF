@@ -1,0 +1,62 @@
+﻿@model IEnumerable<CreatePDF.Models.Supplier>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">New Suppliers</a>
+</p>
+<p>
+    <a id="btnPdf" class="btn btn-primary">Create PDF</a>
+</p>
+
+<div id="pdfContainer">
+<table class="table">
+    <thread>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TradeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+        </tr>
+    </thread>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TradeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+
+<script type="text/javascript">
+$("btnPdf").click(function() {
+    var sHTML = $("pdfContainer").html();
+    sHTML = sHTML.replace(/</g, "StrTag").replace(/</g, "EndTag");
+    window.open('../Supplier/GeneratePdf?html=' + sHTML, '_self');
+});
+</script>
